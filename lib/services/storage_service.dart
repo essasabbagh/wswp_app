@@ -13,7 +13,7 @@ class StorageService {
   Future<void> clear() async => await box.erase();
 
   // Token Storage
-  String getToken() => read(tokenKey);
+  String get getToken => read(tokenKey);
   Future<void> saveToken(String token) => write(tokenKey, token);
   Future<void> deleteToken() => remove(tokenKey);
 }

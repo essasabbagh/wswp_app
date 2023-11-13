@@ -20,11 +20,9 @@ setupServiceLocator() async {
   locator.registerSingleton<DioClient>(dio);
   // locator.registerSingleton<ServiceRepository>(ServiceRepositoryImpl(locator()));
 
-  // tz.initializeTimeZones();
-
   // Storage Service instance
   // locator.registerLazySingleton<StorageService>(() => StorageService(injector()));
-  locator.registerSingleton<SearchService>(SearchService(dio));
+  locator.registerSingleton<SearchService>(SearchService(locator()));
 }
 
 //

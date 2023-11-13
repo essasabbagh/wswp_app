@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 
 import 'client/client.dart';
@@ -13,10 +11,11 @@ class SearchService {
     final String apiUrl = '/products?query=$query'; // Replace with your API endpoint
 
     try {
-      final res = await client.get(apiUrl);
+      final res = await client.get('/todos');
 
       if (res.statusCode == 200) {
-        return json.decode(res.data);
+        return res.data;
+        // return json.decode(res.data);
       } else {
         throw DioException(
           requestOptions: RequestOptions(path: apiUrl),
