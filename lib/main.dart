@@ -7,7 +7,6 @@ import 'package:wswp_app/app.dart';
 
 import 'di.dart';
 import 'providers/app_provider.dart';
-import 'providers/search_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,12 +17,10 @@ void main() async {
     ),
   );
   await setupServiceLocator();
+
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider<AppProvider>(create: (_) => AppProvider()),
-        ChangeNotifierProvider<SearchProvider>(create: (_) => SearchProvider()),
-      ],
+    ChangeNotifierProvider(
+      create: (_) => AppProvider(),
       child: const MyApp(),
     ),
   );

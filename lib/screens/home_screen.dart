@@ -2,26 +2,19 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-import '../providers/search_provider.dart';
+import '../constants/enums.dart';
+import '../providers/app_provider.dart';
+import '../widgets/main_appbar.dart';
 
 class ProductSearchPage extends StatelessWidget {
   const ProductSearchPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final searchProvider = Provider.of<SearchProvider>(context);
+    final appProvider = Provider.of<AppProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('WSWP'),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.share_rounded),
-          )
-        ],
-      ),
+      appBar: const MainAppbar(),
       drawer: const Drawer(),
       body: Column(
         children: [
@@ -31,13 +24,20 @@ class ProductSearchPage extends StatelessWidget {
               children: [
                 Expanded(
                   child: TextField(
-                    controller: searchProvider.searchController,
-                    decoration: const InputDecoration(
-                      labelText: 'Search for products',
+                    controller: appProvider.searchController,
+                    decoration: InputDecoration(
+                      // labelText: 'Search for products',
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      // hintStyle: TextStyle(color: Colors.grey[800]),
+                      hintText: "Type in your text",
+                      filled: true,
+                      fillColor: Colors.white70,
                     ),
-                    onChanged: (value) {
-                      searchProvider.setSearchQuery(value);
-                    },
+                    onChanged: appProvider.setSearchQuery,
+                    // onChanged: (value) => appProvider.setSearchQuery(value),
                   ),
                 ),
                 IconButton(
@@ -50,14 +50,15 @@ class ProductSearchPage extends StatelessWidget {
             ),
           ),
           _buildSearchStateWidget(
-              searchProvider.searchState, searchProvider.searchResults),
+            appProvider.searchState,
+            appProvider.searchResults,
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildSearchStateWidget(
-      SearchState searchState, List<dynamic> searchResults) {
+  Widget _buildSearchStateWidget(SearchState searchState, List<dynamic> searchResults) {
     switch (searchState) {
       case SearchState.loading:
         return const CircularProgressIndicator(); // Show a loading indicator
