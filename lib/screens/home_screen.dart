@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-import '../constants/enums.dart';
 import '../providers/app_provider.dart';
 import '../widgets/main_appbar.dart';
+import '../widgets/main_drawer.dart';
 import '../widgets/result_section.dart';
 
-class ProductSearchPage extends StatelessWidget {
-  const ProductSearchPage({super.key});
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,11 @@ class ProductSearchPage extends StatelessWidget {
 
     return Scaffold(
       appBar: const MainAppbar(),
-      drawer: const Drawer(),
+      drawer: const MainDrawer(),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.qr_code),
+        onPressed: () {},
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

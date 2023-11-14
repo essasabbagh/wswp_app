@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+
 import 'package:rxdart/rxdart.dart';
 
 import '../constants/constants.dart';
@@ -29,7 +30,8 @@ class AppProvider extends ChangeNotifier {
   late StreamSubscription _searchSubscription;
 
   AppProvider() {
-    _searchSubscription = _searchSubject.debounceTime(duration).distinct().listen(_searchProducts);
+    _searchSubscription =
+        _searchSubject.debounceTime(duration).distinct().listen(_searchProducts);
     // (query) {
     //   _searchProducts(query);
     // },
@@ -50,6 +52,7 @@ class AppProvider extends ChangeNotifier {
     // debugPrint('APIURL: $apiUrl');
 
     try {
+      Future.delayed(duration);
       final searchService = locator<SearchService>();
       final res = await searchService.searchProducts('/todos');
       debugPrint('RES: $res');

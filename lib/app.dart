@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
+import 'constants/langs.dart';
 import 'generated/l10n.dart';
 import 'providers/app_provider.dart';
 import 'screens/home_screen.dart';
@@ -33,12 +34,14 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: const [
-        Locale('en', ''),
-        Locale('ar', ''),
-        Locale('tr', ''),
-      ],
-      home: const ProductSearchPage(),
+
+      supportedLocales: langs.map((e) => e.locale),
+      // supportedLocales: const [
+      //   Locale('en', ''),
+      //   Locale('ar', ''),
+      //   Locale('tr', ''),
+      // ],
+      home: const HomeScreen(),
     );
   }
 }

@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 class MainAppbar extends StatelessWidget implements PreferredSize {
@@ -11,7 +9,11 @@ class MainAppbar extends StatelessWidget implements PreferredSize {
   Widget build(BuildContext context) {
     return AppBar(
       centerTitle: true,
-      title: const Text('WSWP'),
+      // title: const Text('WSWP'),
+      title: Image.asset(
+        'assets/images/logo.png',
+        height: 60,
+      ),
       actions: [
         IconButton(
           onPressed: () {},
