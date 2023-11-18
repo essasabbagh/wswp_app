@@ -6,3 +6,9 @@ enum SearchState {
   error,
   noMore,
 }
+
+enum ProductType {
+  all,
+  israili,
+  nonIsraili,
+}

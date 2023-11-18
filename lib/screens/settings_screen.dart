@@ -18,7 +18,7 @@ class SettingsScreen extends StatelessWidget {
     final appProvider = Provider.of<AppProvider>(context);
 
     return Scaffold(
-      appBar: const MainAppbar(),
+      // appBar: const MainAppbar(),
       drawer: const Drawer(),
       body: Container(
         decoration: BoxDecoration(

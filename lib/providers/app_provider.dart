@@ -46,6 +46,9 @@ class AppProvider extends ChangeNotifier {
   SearchState _searchState = SearchState.idle;
   SearchState get searchState => _searchState;
 
+  ProductType _productType = ProductType.all;
+  ProductType get productType => _productType;
+
   Future<void> _searchProducts(String query) async {
     // final String apiUrl = 'https://api.example.com/products?query=$query'; // Replace with your API endpoint
     // debugPrint('APIURL: ***********************************************');
@@ -71,6 +74,12 @@ class AppProvider extends ChangeNotifier {
 
   void setSearchQuery(String query) {
     _searchSubject.add(query);
+    notifyListeners();
+  }
+
+  void setProductType(ProductType value) {
+    _productType = value;
+    notifyListeners();
   }
 
   @override

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class MainAppbar extends StatelessWidget implements PreferredSize {
+class MainAppbar extends StatelessWidget{
   const MainAppbar({
     super.key,
   });
@@ -9,6 +9,7 @@ class MainAppbar extends StatelessWidget implements PreferredSize {
   Widget build(BuildContext context) {
     return AppBar(
       centerTitle: true,
+      automaticallyImplyLeading: false,
       // title: const Text('WSWP'),
       title: Image.asset(
         'assets/images/logo.png',
@@ -23,9 +24,9 @@ class MainAppbar extends StatelessWidget implements PreferredSize {
     );
   }
 
-  @override
-  Widget get child => throw UnimplementedError();
+  // @override
+  // Widget get child => throw UnimplementedError();
 
-  @override
-  Size get preferredSize => const Size(double.infinity, 40);
+  // @override
+  // Size get preferredSize => const Size(double.infinity, 50);
 }

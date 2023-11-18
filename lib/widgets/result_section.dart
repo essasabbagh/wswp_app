@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 
 import '../constants/enums.dart';
@@ -11,23 +12,24 @@ class ResultSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final appProvider = Provider.of<AppProvider>(context);
 
-     switch (appProvider.searchState) {
+    switch (appProvider.searchState) {
       case SearchState.loading:
-        return const CircularProgressIndicator.adaptive(); // Show a loading indicator
+        return const CircularProgressIndicator
+            .adaptive(); // Show a loading indicator
       case SearchState.noData:
         return const Text('No data found');
       case SearchState.data:
-        return Expanded(
-          child: ListView.builder(
-            itemCount: appProvider.searchResults.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(appProvider.searchResults[index]['title']),
-                // Display other product information as needed
-              );
-            },
-          ),
+        return ListView.builder(
+          itemCount: appProvider.searchResults.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: Text(appProvider.searchResults[index]['title']),
+              // Display other product information as needed
+            );
+          },
         );
+      case SearchState.idle:
+        return const Center(child: Text('idle')); // Show an error message
       case SearchState.error:
         return const Text('Error occurred'); // Show an error message
       default:
