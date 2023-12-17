@@ -29,4 +29,4 @@ https://pub.dev/packages/easy_debounce_throttle
 https://pub.dev/packages/debounce_throttle
 https://pub.dev/packages/flutter_debouncer
 
-
+flutter clean && flutter build apk --split-per-abi

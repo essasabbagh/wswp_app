@@ -25,7 +25,7 @@ extension ContextExtensionss on BuildContext {
 
   Orientation get orientation => mediaQuery.orientation;
   double get devicePixelRatio => mediaQuery.devicePixelRatio;
-  double get textScaleFactor => mediaQuery.textScaleFactor;
+  TextScaler get textScaler => mediaQuery.textScaler;
   bool get isLandscape => orientation == Orientation.landscape;
   bool get isPortrait => orientation == Orientation.portrait;
 
@@ -71,12 +71,14 @@ extension ContextExtensionss on BuildContext {
   }
 
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar(
-          String message) =>
-      scaffoldMessenger.showSnackBar(
-        SnackBar(
-          content: Text(message),
-          behavior: SnackBarBehavior.floating,
-          // backgroundColor: primary,
-        ),
-      );
+      String message) {
+    scaffoldMessenger.hideCurrentSnackBar();
+    return scaffoldMessenger.showSnackBar(
+      SnackBar(
+        content: Text(message),
+        behavior: SnackBarBehavior.floating,
+        // backgroundColor: theme.primaryColor,
+      ),
+    );
+  }
 }

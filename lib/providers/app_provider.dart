@@ -7,7 +7,11 @@ import 'package:rxdart/rxdart.dart';
 import '../constants/constants.dart';
 import '../constants/enums.dart';
 import '../di.dart';
+import '../interfaces/data_interface.dart';
+import '../models/product.dart';
 import '../services/search_service.dart';
+
+final searchService = locator<SearchService>();
 
 class AppProvider extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.system;
@@ -32,53 +36,96 @@ class AppProvider extends ChangeNotifier {
   AppProvider() {
     _searchSubscription =
         _searchSubject.debounceTime(duration).distinct().listen(_searchProducts);
-    // (query) {
-    //   _searchProducts(query);
-    // },
+    scrollController.addListener(() {
+      // print('SCROLLCONTROLLER.POSITION.PIXELS: ${scrollController.position.pixels}');
+      // print(
+      //     'SCROLLCONTROLLER.POSITION.MAXSCROLLEXTENT: ${scrollController.position.maxScrollExtent}');
+      // print(
+      //     ' ${scrollController.position.pixels == scrollController.position.maxScrollExtent}');
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        print('sdasdasdasdasd========================asdasdadsad');
+        _searchProducts(searchController.text);
+        // _loadMore(); // Load more results when scrolled to the bottom
+      }
+    });
+    search();
   }
 
-  final TextEditingController _searchController = TextEditingController();
-  TextEditingController get searchController => _searchController;
+  final TextEditingController searchController = TextEditingController();
 
-  List<dynamic> _searchResults = [];
-  List<dynamic> get searchResults => _searchResults;
+  final ScrollController scrollController = ScrollController();
 
-  SearchState _searchState = SearchState.idle;
-  SearchState get searchState => _searchState;
+  List<Output> _results = [];
+  List<Output> get results => _results;
+
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
+  int _page = 1;
+  int get page => _page;
+
+  // Keep track of the page for pagination
 
   ProductType _productType = ProductType.all;
   ProductType get productType => _productType;
 
-  Future<void> _searchProducts(String query) async {
-    // final String apiUrl = 'https://api.example.com/products?query=$query'; // Replace with your API endpoint
-    // debugPrint('APIURL: ***********************************************');
-    // debugPrint('APIURL: $apiUrl');
+  String _techType = 'all';
 
+  String get techType => _techType;
+
+  Future<void> _searchProducts(String data) async {
+    if (isLoading) return;
     try {
-      Future.delayed(duration);
-      final searchService = locator<SearchService>();
-      final res = await searchService.searchProducts('/todos');
-      debugPrint('RES: $res');
+      _isLoading = true;
+      final res = await searchService.fetchData(
+        DataInterface(
+          query: data,
+          productType: productType,
+          paged: page,
+          techType: techType,
+          lang: _appLocale.countryCode ?? 'en',
+        ),
+      );
 
-      _searchResults = res;
-      _searchState = _searchResults.isEmpty ? SearchState.noData : SearchState.data;
+      if (res.output?.isNotEmpty ?? false) {
+        _results.addAll(res.output ?? []);
+        _page++; // Increment page for the next fetch
+      }
+
       notifyListeners();
     } catch (e) {
-      _searchState = SearchState.error;
       debugPrint('Error: $e');
       notifyListeners();
+    } finally {
+      _isLoading = false;
+      notifyListeners();
     }
-
-    notifyListeners();
   }
 
-  void setSearchQuery(String query) {
-    _searchSubject.add(query);
+  void search() {
+    reset();
+    _searchSubject.add(searchController.text);
     notifyListeners();
   }
 
   void setProductType(ProductType value) {
+    reset();
     _productType = value;
+    notifyListeners();
+    _searchProducts(searchController.text);
+  }
+
+  void setTechType(String value) {
+    reset();
+    _techType = value;
+    notifyListeners();
+    _searchProducts(searchController.text);
+  }
+
+  void reset() {
+    _page = 1;
+    _results = [];
     notifyListeners();
   }
 
@@ -86,6 +133,8 @@ class AppProvider extends ChangeNotifier {
   void dispose() {
     _searchSubscription.cancel();
     _searchSubject.close();
+    searchController.dispose();
+    scrollController.dispose();
     super.dispose();
   }
 }

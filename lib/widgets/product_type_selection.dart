@@ -10,13 +10,13 @@ class ProductTypeSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Padding(
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           ProductTypeItem(productType: ProductType.all),
-          ProductTypeItem(productType: ProductType.israili),
-          ProductTypeItem(productType: ProductType.nonIsraili),
+          ProductTypeItem(productType: ProductType.israeli),
+          ProductTypeItem(productType: ProductType.supportingIsrael),
         ],
       ),
     );

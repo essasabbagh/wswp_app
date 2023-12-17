@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import 'constants.dart';
 
@@ -8,15 +9,32 @@ class DioClient {
 
   static final instance = DioClient._();
 
-  final Dio _dio = Dio(BaseOptions(
-    baseUrl: baseUrl,
-    receiveTimeout: const Duration(milliseconds: timeout),
-    connectTimeout: const Duration(milliseconds: timeout),
-    sendTimeout: const Duration(milliseconds: timeout),
-    followRedirects: false,
-    responseType: ResponseType.json,
-    contentType: Headers.jsonContentType,
-  ));
+  final Dio _dio = Dio(
+    BaseOptions(
+      baseUrl: baseUrl,
+      receiveTimeout: const Duration(milliseconds: timeout),
+      connectTimeout: const Duration(milliseconds: timeout),
+      sendTimeout: const Duration(milliseconds: timeout),
+      followRedirects: false,
+      responseType: ResponseType.json,
+      contentType: Headers.jsonContentType,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization':
+            'wswp_auth <4yDku+aCv\\mafWGVoY4Leih2!E2NSGVvKZh6Md*weNBoo/ihPGUrDW862c33ARc_Sj*m7Qo=Ggfczsa!xESGCmihs97b!F_NmVEJfQ9KCoUGfo!QpPzW8B_zJHRXkH5'
+      },
+    ),
+  )..interceptors.add(
+      PrettyDioLogger(
+        requestHeader: true,
+        requestBody: true,
+        responseBody: true,
+        responseHeader: false,
+        error: true,
+        compact: true,
+        maxWidth: 90,
+      ),
+    );
 
   ///Get Method
   Future<Response> get(

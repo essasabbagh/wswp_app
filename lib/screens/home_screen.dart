@@ -1,29 +1,28 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 import 'package:wswp_app/utils/context_ext.dart';
 
+import '../providers/app_provider.dart';
+import '../widgets/main_end_drawer.dart';
 import '../widgets/main_drawer.dart';
 import '../widgets/result_section.dart';
 import '../widgets/search_input.dart';
 
 final GlobalKey<ScaffoldState> _key = GlobalKey();
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  @override
   Widget build(BuildContext context) {
+    final appProvider = Provider.of<AppProvider>(context);
+
     return Scaffold(
       key: _key,
       drawer: const MainDrawer(),
-      endDrawer: const MainDrawer(),
+      endDrawer: const MainEndDrawer(),
       body: NestedScrollView(
+        controller: appProvider.scrollController,
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           return [
             SliverAppBar(
@@ -32,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
               pinned: true,
               // snap: true,
               floating: true,
+              // stretch: true,
               forceElevated: innerBoxIsScrolled,
               expandedHeight: 150,
               title: Row(
@@ -48,7 +48,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     duration: const Duration(milliseconds: 100),
                     curve: Curves.bounceOut,
                     child: Image.asset(
-                      'assets/images/logo.png',
+                      context.isDark
+                          ? 'assets/images/logo_dark.png'
+                          : 'assets/images/logo.png',
                       height: 60,
                     ),
                   ),
@@ -64,16 +66,9 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         body: const ResultSection(),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.qr_code),
-        onPressed: () {},
-      ),
-      // bottomNavigationBar: Material(
-      //   color: Colors.blue,
-      //   child: TabBar(
-      //     tabs: _kTabs,
-      //     controller: _tabController,
-      //   ),
+      // floatingActionButton: FloatingActionButton(
+      //   child: const Icon(Icons.qr_code),
+      //   onPressed: () {},
       // ),
     );
   }

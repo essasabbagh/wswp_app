@@ -1,5 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:wswp_app/constants/enums.dart';
 
+import '../interfaces/data_interface.dart';
+import '../models/product.dart';
 import 'client/client.dart';
 
 class SearchService {
@@ -7,14 +10,23 @@ class SearchService {
 
   SearchService(this.client);
 
-  Future<List<dynamic>> searchProducts(String query) async {
-    final String apiUrl = '/products?query=$query'; // Replace with your API endpoint
+  Future<DataModel> fetchData(DataInterface data) async {
+    String apiUrl =
+        '/mob_api/v1/search?key_word=${data.query}&paged=${data.paged}&lang=${data.lang}';
+    if (data.productType != ProductType.all) {
+      apiUrl += '&type=${data.productType.type}';
+    }
+    if (data.techType != 'all') {
+      apiUrl += '&tech_type=${data.techType}';
+    }
+
+    // Replace with your API endpoint
 
     try {
-      final res = await client.get('/todos');
+      final res = await client.get(apiUrl);
 
       if (res.statusCode == 200) {
-        return res.data;
+        return DataModel.fromJson(res.data);
         // return json.decode(res.data);
       } else {
         throw DioException(

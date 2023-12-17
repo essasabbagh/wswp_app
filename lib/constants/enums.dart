@@ -9,6 +9,14 @@ enum SearchState {
 
 enum ProductType {
   all,
-  israili,
-  nonIsraili,
+  israeli,
+  supportingIsrael,
+}
+
+extension ProductTypeExtension on ProductType {
+  String get type => switch (this) {
+        ProductType.all => 'all',
+        ProductType.israeli => 'israeli',
+        ProductType.supportingIsrael => 'supporting-israel',
+      };
 }

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:wswp_app/widgets/logo.dart';
 
-class MainAppbar extends StatelessWidget{
-  const MainAppbar({
-    super.key,
-  });
+class MainAppbar extends StatelessWidget {
+  const MainAppbar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,10 +10,7 @@ class MainAppbar extends StatelessWidget{
       centerTitle: true,
       automaticallyImplyLeading: false,
       // title: const Text('WSWP'),
-      title: Image.asset(
-        'assets/images/logo.png',
-        height: 60,
-      ),
+      title: const Logo(),
       actions: [
         IconButton(
           onPressed: () {},
