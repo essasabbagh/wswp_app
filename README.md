@@ -30,3 +30,7 @@ https://pub.dev/packages/debounce_throttle
 https://pub.dev/packages/flutter_debouncer
 
 flutter clean && flutter build apk --split-per-abi
+
+### FVM
+
+https://stackoverflow.com/questions/75441953/use-fvm-to-change-flutter-version-in-vscode-but-the-flutter-version-not-work

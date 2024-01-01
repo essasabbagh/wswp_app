@@ -34,8 +34,10 @@ class AppProvider extends ChangeNotifier {
   late StreamSubscription _searchSubscription;
 
   AppProvider() {
-    _searchSubscription =
-        _searchSubject.debounceTime(duration).distinct().listen(_searchProducts);
+    _searchSubscription = _searchSubject
+        .debounceTime(duration)
+        .distinct()
+        .listen(_searchProducts);
     scrollController.addListener(() {
       // print('SCROLLCONTROLLER.POSITION.PIXELS: ${scrollController.position.pixels}');
       // print(
