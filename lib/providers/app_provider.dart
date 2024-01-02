@@ -8,6 +8,7 @@ import '../constants/constants.dart';
 import '../constants/enums.dart';
 import '../di.dart';
 import '../interfaces/data_interface.dart';
+import '../models/category.dart';
 import '../models/product.dart';
 import '../services/search_service.dart';
 
@@ -52,6 +53,7 @@ class AppProvider extends ChangeNotifier {
       }
     });
     search();
+    setCategories();
   }
 
   final TextEditingController searchController = TextEditingController();
@@ -60,6 +62,19 @@ class AppProvider extends ChangeNotifier {
 
   List<Output> _results = [];
   List<Output> get results => _results;
+
+  List<Category> _categories = [];
+  List<Category> get categories => _categories;
+
+  void setCategories() async {
+    searchService
+        .fetchCategory(
+          _appLocale.countryCode ?? 'en',
+        )
+        .then(
+          (value) => _categories = value.output ?? [],
+        );
+  }
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;

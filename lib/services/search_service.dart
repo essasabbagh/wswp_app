@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:wswp_app/constants/enums.dart';
 
 import '../interfaces/data_interface.dart';
+import '../models/category.dart';
 import '../models/product.dart';
 import 'client/client.dart';
 
@@ -47,4 +48,33 @@ class SearchService {
       );
     }
   }
+
+  Future<CategoryModel> fetchCategory(String lang) async {
+    String apiUrl = '/mob_api/v1/categories?lang=$lang';
+    try {
+      final res = await client.get(apiUrl);
+
+      if (res.statusCode == 200) {
+        return CategoryModel.fromJson(res.data);
+        // return json.decode(res.data);
+      } else {
+        throw DioException(
+          requestOptions: RequestOptions(path: apiUrl),
+          error: 'Failed to load data',
+          response: Response(
+            requestOptions: RequestOptions(path: apiUrl),
+            data: 'Failed to load data',
+            statusCode: res.statusCode,
+          ),
+        );
+      }
+    } catch (e) {
+      // Handle Dio errors
+      throw DioException(
+        requestOptions: RequestOptions(path: apiUrl),
+        error: e.toString(),
+      );
+    }
+  }
+
 }

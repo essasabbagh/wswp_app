@@ -119,17 +119,45 @@ class SearchInput extends StatelessWidget implements PreferredSize {
                         Icons.remove,
                         color: Colors.grey[600],
                       ),
+                      GestureDetector(
+                        onTap: () {
+                          appProvider.setTechType('all');
+                          Navigator.of(context).pop();
+                        },
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: Card(
+                            elevation: 1,
+                            shadowColor: Colors.black.withOpacity(.1),
+                            color: context.theme.dialogBackgroundColor,
+                            shape: BeveledRectangleBorder(
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 4,
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.all(8),
+                              child: Text(
+                                'All',
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                       Expanded(
                         child: ListView.builder(
                           controller: controller,
-                          itemCount: techTypes.length,
+                          itemCount: appProvider.categories.length,
                           itemBuilder: (_, index) {
-                            final techType =
-                                techTypes[index].isEmpty ? 'All' : techTypes[index];
+                            final categoryName =
+                                appProvider.categories[index].name ?? 'All'; //
 
                             return GestureDetector(
                               onTap: () {
-                                appProvider.setTechType(techType);
+                                appProvider.setTechType(categoryName);
                                 Navigator.of(context).pop();
                               },
                               child: Card(
@@ -146,7 +174,7 @@ class SearchInput extends StatelessWidget implements PreferredSize {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8),
                                   child: Text(
-                                    techType,
+                                    categoryName,
                                     style: const TextStyle(fontSize: 16),
                                   ),
                                 ),
